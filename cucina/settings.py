@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-$8j#$15o%o1m=2_1#d&)j66(d55a-%4o5i^i=ftjlsc7i%#*p*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["pensieriecucina.e20.website","localhost"]
+ALLOWED_HOSTS = ["ricette.e20.website","localhost"]
 
 
 # Application definition
