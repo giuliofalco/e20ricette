@@ -1,0 +1,124 @@
+{%load static %}
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+    <link rel="stylesheet" href="{%static 'blog/stile.css' %}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+   
+    <style>
+       
+        h1 {text-align:center;}
+        #oggetti {display: flex; justify-content: space-around; width: 100%;}
+        #farfalla {width: 150px; height: 125px; margin-left: 0px; width:300opx; margin-top:-50px;}
+        #spaghetti {width: 600px; padding: 20px;}
+        #logo {height:200px; }
+       .myfont {font-family: "Sofia", sans-serif; color:#C00}
+       .mylogo {margin-top: 70px; cursor:pointer;width:220px;}
+       .mylogo img {width:300px;}
+       .testata {width: 100%; text-align: center; background-color: #fff9d5; margin:0;padding:5px; }
+       .social  {margin-top: 60px; }
+       .social a {text-decoration: none;}
+       .social img {width: 100px; height: 100px; vertical-align:middle}
+       .loghi-social {width: 30px; height: 30px;}
+       .slideshow {text-align:center}
+       .mySlides {display: none; height:100%; margin: auto;}
+       .corpo  {display: flex; justify-content: space-around; height: 200px;}
+       .video  {width: 350px; overflow:hidden;}
+       .titolo_elenco  {margin-left: 40px; color: navy; margin-top: 50px;
+                        text-align: left;}
+       .elenco_ricette {display:flex;}
+       .ricetta  {margin-left: 45px; padding: 10px; width: 400px;}
+       .ricetta img {width: 300px;}
+       .descrizione_ricetta {
+          margin-top: 10px;
+          padding: 10px;
+          border: 1px solid #ccc;
+          background-color: #f9f9f9;
+          display: none;
+        }
+        .toggle-description {
+          margin-bottom: 10px;
+          background-color: white;
+          color: rgb(41, 72, 207);
+          border: none;
+          padding: 10px;
+          cursor: pointer;
+          font-size: 14px;
+        }
+        .toggle-description:hover {
+          background-color: #e09955;
+        }
+    </style>  
+    <script>
+        function myFunction(id) {
+          var x = document.getElementById(id);
+          if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+          } else {
+            x.className = x.className.replace(" w3-show", "");
+          }
+        }
+
+     </script>
+    {% block head %} 
+    {% endblock %}
+</head>
+<body>
+    <div class=testata>
+        <div id=oggetti>
+            <div class=social>
+          <br>
+            <a href="{{autore.facebook}}">
+                <img style="width: 50px; height:50px" src="{%static 'blog/facebook.png'%}" > 
+            </a>
+            <a href="{{autore.instagram}}">
+                <img style="width: 55px; height:35px" src="{% static 'blog/instagram.png' %}">   
+            </a>
+           </div>
+            
+           <img id=logo src="{%static 'blog/logoRicette.png' %}"> 
+           
+         
+            <div class=mylogo onclick="document.location='http://www.e20.website'">
+             Powered by<br>
+             <img src="{%static 'blog/logo.png'%}" style="width:120px;"> 
+           </div>
+        </div>
+    </div>
+    <p>
+    <!-- Menu principale per schermi grandi -->
+    <nav class="navbar w3-hide-small w3-show-large">
+        <ul class="menu">
+            <li><a href="{%url 'blog:index'%}">Home</a></li>
+           
+            <li><a href="{%url 'blog:ArticleListView' 'cuciniamo' %}">Cuciniamo insieme</a></li>
+            <li><a href="{%url 'blog:ArticleListView' 'scorribande' %}">Le mie scorribande</a>
+             <!-- <ul class="dropdown">
+                <li><a href="#">scorribande culinarie</a></li>
+                <li><a href="#">Le mie esperienze</a></li>
+              </ul>
+               -->
+            </li>
+            <li><a href="{% url 'blog:videoricette' %}">VideoRicette</a></li>
+            <li><a href="{% url 'blog:author-detail' 2%}">Chi sono</a></li>
+        </ul>
+        </nav>
+
+      <!-- Menu per schermi piccoli -->  
+      <button class="w3-button w3-hide-large w3-hide-medium w3-xlarge"  onclick="myFunction('mySidebar')">☰</button>
+      <div class="w3-sidebar w3-bar-block w3-border-right w3-light-blue" style="display:none; height: 130vh; overflow-y: scroll;" id="mySidebar">
+      
+        <button onclick="myFunction('mySidebar')" class="w3-bar-item w3-large">Chiudi &times;</button>
+        <a href="{% url 'blog:index' %}" class="w3-bar-item w3-button">Home</a>
+        <a href="{% url 'blog:ArticleListView' 'cuciniamo' %}" class="w3-bar-item w3-button">Cuciniamo insieme</a>
+        <a href="{% url 'blog:ArticleListView' 'scorribande'%}" class="w3-bar-item w3-button">Le mie scorribande</a>
+        <a href="{% url 'blog:videoricette' %}" class="w3-bar-item w3-button">VideoRicette</a>
+        <a href="{% url 'blog:author-detail' 2%}" class="w3-bar-item w3-button">Chi sono</a>
+      </div>
+    {% block content %}
+
+    {% endblock %}
+</body>
+
+</html>

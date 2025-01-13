@@ -1,0 +1,74 @@
+{%extends 'blog/base.html'%}
+
+{%block head%}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aggiungi Commento</title>
+    <style>
+    h2 {color: brown;}
+    .etichette {color:blue}
+    .contenitore {width:95%; margin:auto; text-align:center}
+    .star-rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+        font-size: 2em;
+        color: gray;
+    }
+
+    .star-rating input {
+        display: none;
+    }
+
+    .star-rating label {
+        cursor: pointer;
+    }
+
+    .star-rating label:hover,
+    .star-rating label:hover ~ label,
+    .star-rating input:checked ~ label {
+        color: orange;
+    }
+    </style>
+{%endblock%}   
+
+{%block content%}
+<div class="w3-container contenitore">
+    <h2>commenta: {{ titolo }}</h2>
+    <form method="post" class="w3-container w3-card w3-padding w3-margin-top">
+            {% csrf_token %}
+
+        <!-- Campo per l'autore -->
+        <label class="etichette" for="id_author" ><b>Autore:</b></label><br>
+            {{ form.author }}
+       <p> 
+        <!-- Campo per il giudizio con stelline -->
+            <label class="etichette" for="id_rate" ><b>Giudizio:</b></label>
+            <div class="star-rating">
+                <input type="radio" id="star5" name="rate" value="5"
+                {% if form.rate.value == 5 %}checked{% endif %}>
+                <label for="star5">★</label>
+                <input type="radio" id="star4" name="rate" value="4"
+                {% if form.rate.value == 4 %}checked{% endif %}>
+                <label for="star4">★</label>
+                <input type="radio" id="star3" name="rate" value="3"
+                {% if form.rate.value == 3 %}checked{% endif %}>
+                <label for="star3">★</label>
+                <input type="radio" id="star2" name="rate" value="2"
+                {% if form.rate.value == 2 %}checked{% endif %}>
+                <label for="star2">★</label>
+                <input type="radio" id="star1" name="rate" value="1"
+                {% if form.rate.value == 1 %}checked{% endif %}>
+                <label for="star1">★</label>
+            </div>
+
+            <!-- Campo per il contenuto del commento -->
+            <label class="etichette" for="id_content"><b>Commento:</b></label><br>
+            {{ form.content }}
+            <br>
+            <button type="submit" class="w3-button w3-margin-top w3-blue">Invia Commento</button>
+        </form>
+    </div>
+</body>
+</html>
+
+{%endblock%} 

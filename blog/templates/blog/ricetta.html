@@ -1,0 +1,85 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{%block head%}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    h2.intestazioni   {color:brown}
+    h1   {margin-top: 20px; color: rgb(37, 81, 173)}
+    #lente {width:32px;}
+    .descrizione {
+                  margin:auto;
+                  width: 95%; 
+                  padding:15px;
+                  background-color: white;
+                 }
+    img {max-width:100%; 
+         height: auto;  
+         object-fit: cover; /* Mantiene le proporzioni e riempie il contenitore */
+        }
+    .icona {font-size:small;}
+</style>
+<script>
+    function copia(sezione) {
+        // copia negli appunti il testo della casella preparazione
+        casella = document.getElementById(sezione);
+        var range = document.createRange(); // Crea un intervallo
+        range.selectNodeContents(casella); // Seleziona il contenuto della div
+        var selection = window.getSelection();
+        selection.removeAllRanges(); // Rimuove eventuali selezioni precedenti
+        selection.addRange(range); // Aggiunge il nuovo intervallo
+        try {
+             var successful = document.execCommand('copy');
+             var msg = successful ? 'contenuto copiato negli appunti' : 'copia fallita';
+            alert(msg);
+        } catch (err) {
+          console.error('Errore durante la copia', err);
+        }
+
+        // Deseleziona il contenuto
+        selection.removeAllRanges();
+           
+    }
+</script>
+{%endblock%}
+
+{%block content %}
+<div id="sfondo">
+      <div style="display:flex; justify-content: center; gap: 5px; align-items: flex-end">
+      <h1>Ricetta: <span id='titolo'>{{recipe.title}} </h1>
+          <divclass="icona" > 
+            <a href="{% url 'blog:ricetta_da_sola' recipe.id db%}">   
+            <img src="{%static 'blog/pdf.png'%}" title="apri">
+            </a><br>print        
+          </div>
+      </div>
+    
+    <div class="w3-card-4 descrizione">
+        <h2 class="intestazioni">Descrizione</h2>
+        {{recipe.description | safe}}
+     
+        <div id="ingredienti">
+        <h2 class="intestazioni" style="display:inline">Ingredienti</h2>
+        (per {{recipe.persone}} persone) 
+        <ul>
+          {% for ingredient in ingredients %}
+            <li>
+              {{ ingredient.ingredient.name }}: {{ ingredient.quantity }} 
+              {%if ingredient.unit %} {{ ingredient.unit }} {%endif%}
+            </li>
+          {% endfor %}
+        </ul>
+        </div>
+        <button onClick="copia('ingredienti')">Copia negli appunti</button>
+        
+        <h2 class="intestazioni">Preparazione</h2>
+        <div id="preparazione">
+        {{recipe.instructions | safe}}
+        </div>
+        <button onClick="copia('preparazione')">Copia negli appunti</button>
+        <a  href="{%url 'blog:lista_commenti' recipe.id %}" style="text-decoration:none">
+          <img id=lente src="{%static 'blog/cerca.jpg' %}"> commenti: {{comment_count}}
+         </a>
+    </div>
+</div>
+{% endblock %}

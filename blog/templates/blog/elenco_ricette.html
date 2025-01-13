@@ -1,0 +1,69 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{%block head%}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+      body {background-color: rgb(252, 232, 228);}
+      h1 {color:brown}
+      .elenco {width: 95%; margin:auto;text-align:center; background-color: white;}
+      .filtro {margin:auto; display:flex; flex-wrap:wrap; 
+               gap: 5px; justify-content: center; width: 100%; 
+      }
+      .controllo {align-self: center;}
+      td img {width:32px;}
+      
+              
+</style>
+
+{%endblock%}
+
+{%block content %}
+        <h1>Ricette di {{category}}</h1>
+       
+        <form method="get">
+          <div class="filtro">
+              <div class="controllo">
+              {{filter.form.subcategory.label_tag}}
+              {{filter.form.subcategory}}
+              </div>
+              <div class="controllo">
+                {{filter.form.tags.label_tag}}
+                {{filter.form.tags}}
+              </div>
+              <div class="controllo">
+              {{filter.form.descrizione_breve.label_tag}}
+              {{filter.form.descrizione_breve}}
+              </div>
+              <div class="controllo">
+              <button type="submit" class="btn btn-primary">Filtra</button>
+              </div>        
+            </div>   
+        </form>
+       
+
+        <div class="w3-card-4 elenco">
+        <table class="w3-table">
+            <th>Categoria</th><th></th><th>Titolo</th><th>Descrizione</th><th>Commenti</th>
+            
+            {% for ricetta in filter.qs %}
+            <tr>
+            <td style="width:95px;">
+                {% for category in ricetta.categories.all %}
+                  {{category}} 
+                {%endfor%}
+            </td>
+            <td style="width:50px;"><a href="{%url 'blog:ricetta' ricetta.id %}"><img src="{%static 'blog/pdf.png' %}"></a></td>    
+            <td>{{ricetta.title}}</td>
+            <td>{{ricetta.descrizione_breve}}</td>
+            <td style="width: 100px;">
+              <a href="{%url 'blog:lista_commenti' ricetta.id %}" style="text-decoration:none">
+               <img src="{%static 'blog/cerca.jpg' %}"> ({{ricetta.comment_count}})
+              </a>
+            </td>
+            </tr>
+            {%endfor%}
+        </table>
+        </div>
+      
+ {%endblock%}   

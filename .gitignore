@@ -1,0 +1,61 @@
+# Sistema operativo specifici
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambiente virtuale
+venv/
+env/
+*.env
+
+# Configurazione IDE/Editor
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+
+# Static e media files (generati in produzione)
+staticfiles/
+media/
+# Se usi WhiteNoise per gestire statici:
+*.gz
+
+# Migrazioni (opzionale, solo se gestisci migrazioni in un ambiente separato)
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# File di test o temporanei
+*.bak
+*.swp
+*.tmp
+*.orig
+
+# File di configurazione privati
+secrets.json
+*.pem
+
+# Node.js (se usi npm/yarn per gestire pacchetti JS)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# File di compilazione (esempio: frontend compilati con Webpack)
+dist/
+build/
+
+# Docker
+docker-compose.override.yml
+*.dockerfile
+__pycache__/docker/
+
+# Configurazione locale e personalizzata
+local_settings.py

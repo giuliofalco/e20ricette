@@ -1,0 +1,57 @@
+{%load static%}
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    h1   {margin-top: 0px; color: rgb(37, 81, 173)}
+    h2.intestazioni  {color:brown}
+    h3 {color:blue}
+    .descrizione {
+                  margin:auto;
+                  width: 85%; 
+                  padding:25px;
+                  background-color: white;
+                 }
+    @media print {
+        .noprint { display:none;}
+    }
+    .logo {width:48px;}
+</style>
+
+</head>
+
+<body>
+
+<div id="sfondo">
+    <h1>Ricetta: {{recipe.title}}  <button class="noprint" onClick="print();">Stampa</button></h1>
+    {%if db == 'farfalla'%}
+    <h3>
+      di  <img class=logo src="{%static 'blog/AzzurraFarfallaFissa.png'%}">{{recipe.author.nome}}
+    </h3>
+    {%endif%}
+    <div class="w3-card-4 descrizione">
+        <h2 class="intestazioni">Descrizione</h2>
+        {{recipe.description | safe}}
+     
+        <div id="ingredienti">
+        <h2 class="intestazioni" style="display:inline">Ingredienti</h2>
+        (per {{recipe.persone}} persone)
+        <ul>
+          {% for ingredient in ingredients %}
+            <li>
+              {{ ingredient.ingredient.name }}: {{ ingredient.quantity }} {{ ingredient.unit }}
+            </li>
+          {% endfor %}
+        </ul>
+        </div>
+        
+        
+        <h2 class="intestazioni">Preparazione</h2>
+        <div id="preparazione">
+        {{recipe.instructions | safe}}
+        </div>
+       
+    </div>
+</div>
+
+</body></html>

@@ -1,0 +1,76 @@
+<!-- templates/articles/article_list.html -->
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block head%}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body {background-color: rgb(252, 232, 228);}
+    h1 {color: rgb(7, 7, 151); }
+    h3 {color: brown; text-align:center;}
+    .filtro {margin:auto; display:flex; flex-wrap:wrap; 
+             gap: 5px; justify-content: center; width: 100%}
+    .article-list { width: 99%; margin:auto; background-color: white;}
+    .article-item { padding: 25px; line-height: 1; height:auto; overflow:hidden;
+                    position: relative; }
+    .article-item img 
+    {
+        display: block;
+        margin:0px;
+        max-width:100%; 
+        height: auto;  
+        object-fit: contain; /* Mantiene le proporzioni senza tagliare nulla */
+    }
+    .icon {width:32px;}
+      
+    
+
+</style>
+{%endblock%}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+<div class="'filtro"></div>
+<form method="get" class="filtro">
+    
+    <div>Categoria {{ filter.form.categories }}</div>
+    <div>Contenuto {{ filter.form.content }}</div>
+    <div>Recenti   {{ filter.form.recent_articles }}</div>
+    <div>Tag       {{ filter.form.tags}}</div>
+    <div><button type="submit" class="btn btn-primary">Filtra</button></div>
+  
+</form>
+</div>
+<p>
+
+    {% for article in filter.qs %}
+    <div class="article-list w3-card-4">
+        <div class="article-item mb-3">
+            <h3>{{ article.title }}</h3>
+            <p>{{ article.content|safe }}</p>
+            {% if article.pdf_file %}
+                <!-- Visualizza il PDF -->
+
+                <a href="{{ article.pdf_file.url }}" target="_blank">
+                    Visualizza il PDF dell'articolo
+                </a>
+            </p>
+               
+            {% endif %}
+            <small>Autore: {{ article.author.nome }} {{article.created_at}}</small>
+            <a href="{%url 'blog:lista_commenti_articoli' article.id %}" style="text-decoration:none">
+                <img class='icon' src="{%static 'blog/cerca.jpg' %}" style="display:inline"> commenti: {{article.comment_count}}
+            </a>
+        </div>
+        <p>
+    </div>
+    {% empty %}
+        <p>Nessun articolo trovato.</p>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+    {% include "blog/pagination.html" %}
+{% endif %}
+{% endblock %}

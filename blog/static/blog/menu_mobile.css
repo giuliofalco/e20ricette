@@ -1,0 +1,61 @@
+/* Stile generale */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Contenitore del menu */
+.menu-container {
+  position: relative;
+}
+
+/* Icona hamburger */
+.menu-toggle {
+  font-size: 30px;
+  cursor: pointer;
+  padding: 15px;
+  background-color: #333;
+  color: white;
+  text-align: left;
+}
+
+/* Menu verticale nascosto di default */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -250px; /* Nasconde il menu fuori dallo schermo */
+  width: 250px;
+  height: 100%;
+  background-color: #333;
+  overflow-y: auto;
+  transition: left 0.3s ease;
+  z-index: 1000;
+}
+
+.side-menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-menu ul li {
+  border-bottom: 1px solid #444;
+}
+
+.side-menu ul li a {
+  display: block;
+  padding: 15px 20px;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.side-menu ul li a:hover {
+  background-color: #575757;
+}
+
+/* Menu aperto */
+.side-menu.open {
+  left: 0;
+}
+

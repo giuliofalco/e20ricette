@@ -1,0 +1,79 @@
+{%extends 'blog/base.html'%}
+{% load custom_filters %}
+
+{%block head%}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    h1 {color:brown}
+    .star-rating {
+            color:red;
+        }
+
+        .action-icons {
+            margin-top: 10px;
+        }
+
+        .action-icons i {
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .action-icons i:hover {
+            color: teal;
+        }
+        .label {color: blue;}
+  </style>
+  <script>
+        function editComment(commentId) {
+            // Logica per la modifica di un commento
+            url = `/update_comment/${commentId}?tipo=art`;
+            document.location = url;
+            //alert(url);
+        }
+    
+        function deleteComment(commentId) {
+            // Logica per la cancellazione di un commento
+            if (confirm("Sei sicuro di voler eliminare questo commento?")) {
+               url = `/delete_comment/${commentId}`;
+               //alert(url);
+               document.location = url;
+            }
+        }
+  </script>
+{%endblock%}
+
+{%block content%}
+
+     <div class="w3-container w3-light-grey w3-padding-large">
+        <!-- Titolo della pagina -->
+        <h1 class="w3-center">Commenti a: <span >{{articolo.title}}</span></h1>
+        <a href="{% url 'blog:add_comment_articolo' articolo.id %}">
+           <button class="w3-button w3-blue">Scrivi un commento</button>
+        </a>
+        <!-- Lista dei commenti -->
+        {%for comm in commenti %}
+        <div class="w3-margin-top">
+
+            <!-- Singolo commento -->
+            <div class="w3-card w3-white w3-padding w3-margin-bottom">
+                <h3 class="label">Autore: {{comm.author}}</h3>
+                <p class="w3-text-grey">Data: {{comm.created_at}}</p>
+                <div class="star-rating">
+                    <div class="star-rating">
+                        {{ comm.rate|star_rating }}
+                    </div>
+                </div>
+                <p>{{comm.content}}</p>
+                {% if token == comm.token %}
+                <div class="action-icons w3-text-grey">
+                    <i class="w3-xlarge w3-hover-text-teal" onclick="editComment({{comm.id}})">&#9998;</i> <!-- Icona modifica -->
+                    <i class="w3-xlarge w3-hover-text-red" onclick="deleteComment({{comm.id}})">&#10006;</i> <!-- Icona cancella -->
+                </div>
+                {%endif%}
+            </div>
+            
+        </div>
+        {%endfor%}
+    </div>
+
+{%endblock%}

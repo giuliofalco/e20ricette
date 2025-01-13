@@ -1,0 +1,277 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block head %}
+
+     <!-- PAGINA PRINCIPALE --> 
+
+       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+       <link rel="stylesheet" href="{%static 'blog/stile.css' %}">
+       <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <style>
+          body {background-color:rgb(252, 232, 228);}
+          h1 {text-align:center;}
+          .titolo_ricetta {color: blue;}
+          #oggetti {display: flex; justify-content: space-around; width: 100%;}
+          #farfalla {width: 150px; height: 125px; margin-left: 0px; width:300opx; margin-top:-50px;}
+          #spaghetti {width: 600px; padding: 20px;}
+          #logo {height:200px;}
+         .myfont {font-family: "Sofia", sans-serif; color:#C00}
+         .mylogo {margin-top: 70px;}
+         .mylogo img {width:100px;}
+         .testata {width: 100%; text-align: center; background-color: #fff9d5; margin:0; }
+         .social  {margin-top: 60px;}
+         .social img {width: 100px; height: 100px; vertical-align:middle}
+         .loghi-social {width: 30px; height: 30px;}
+         .slideshow {text-align:center;}
+         .mySlides {display: none; max-width:300px; margin: auto; background-color: gray }
+         .pagina {  padding:10px; margin:0px; width:100%;}
+         .corpo  {display: flex; justify-content: space-around; }
+         .video  {position: relative; }
+         .titolo_elenco  {
+                  margin-left: 40px; 
+                  color: navy; 
+                  margin-top: 50px;
+                  text-align: left;             
+          }
+         .elenco_ricette {display:flex;}
+         .ricetta  {margin-left: 45px; padding: 10px; width: 400px; background-color: white;}
+         .ricetta img {width: 300px;}
+         .descrizione_ricetta {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            display: none;
+          }
+          .toggle-description {
+            margin-bottom: 10px;
+            background-color: rgb(235, 231, 198);
+            color: rgb(41, 72, 207);
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 14px;
+          }
+          .toggle-description:hover {
+            background-color: #e09955;
+          }
+          .archivio_ricette {
+             display: flex;
+             flex-wrap: wrap;
+             justify-content: center;
+             gap: 20px;
+             margin: 30px auto;
+          }
+          .categorie {
+                /*
+                background-color: rgb(143, 59, 11); color: white; 
+                width: 100px; margin: 10px; padding: 10px; cursor:pointer */
+              background-color: rgb(10, 92, 170);
+              color: white;
+              width: 120px;
+              padding: 15px;
+              margin: 10px;
+              border: none;
+              border-radius: 10px;
+              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+              cursor: pointer;
+              font-size: 16px;
+              transition: all 0.3s ease-in-out;
+          }
+          .categorie:hover {
+              background-color:rgb(143, 59, 11); 
+              transform: translateY(-5px) scale(1.1);
+              box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+          }
+
+  @media (max-width: 768px) {
+  .corpo {
+    flex-direction: column;
+    height: auto; /* Lascia che l'altezza si adatti automaticamente */
+    align-items: center; /* Centra gli elementi in verticale */
+  }
+
+  .video{
+    display: block;
+    margin-bottom: 20px; /* Spazio tra i video */
+  }
+
+  .slideshow {
+    width: 100%; /* Adatta lo slideshow alla larghezza dello schermo */
+    margin-bottom: 20px; /* Spazio sotto lo slideshow */
+  }
+  .myslide {max-width: 300px;}
+
+  .elenco_ricette {flex-direction: column;}
+  .ricetta {
+    width: 100%; /* Le ricette occuperanno tutta la larghezza disponibile */
+    margin: 10px 0; /* Margine per distanziarle */
+  } 
+  }
+  
+  </style>
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <!-- Script per mostrare/nascondere la descrizione -->
+  <script>
+        function toggleDescription(button) {
+          var descriptionDiv = button.nextElementSibling;  // Seleziona il div della descrizione
+          if (descriptionDiv.style.display === "none") {
+            descriptionDiv.style.display = "block";  // Mostra la descrizione
+            button.innerHTML = "Nascondi descrizione";  // Cambia testo del bottone
+          } else {
+            descriptionDiv.style.display = "none";  // Nasconde la descrizione
+            button.innerHTML = "Mostra descrizione";  // Cambia testo del bottone
+          }
+        }
+  </script>
+  {% endblock %}
+    
+  {%block content %}
+    <div class="pagina">
+        <h1 class=myfont>Il Blog delle Ottime ricette Italiane</h1>
+
+        <div class="corpo">
+         
+          <div id="video0" class="video">
+            {%if video %}
+               {{video.0.embed|safe}}
+            {%endif%}
+          </div>  
+
+          <div class="slideshow">
+          <header class="w3-container w3-center " >
+               
+              {%for slide in slideshow %}
+                <a href="{%url 'blog:ricetta' slide.id %}">
+                 <img src="{{ slide.immagini_set.all.0.immagine.url }}" class="mySlides w3-animate-right">
+                </a>
+              {%endfor%}
+              <h3 id="titolo"></h3>
+          </header>
+          </div>   <!-- slideshow -->
+
+          <div id="video1" class="video">
+            {%if video %}
+               {{video.1.embed|safe}}
+            {%endif%}
+          </div>
+       
+        </div>     <!-- corpo -->
+
+        <script>
+            var slideIndex = 0;
+            var titoli = {{titoli|safe}};
+            carousel();
+            
+            function carousel() {
+              var i;
+             
+              var x = document.getElementsByClassName("myslides");
+              for (i = 0; i < x.length; i++) {
+                   x[i].style.display = "none";
+              }
+              
+              slideIndex++;
+              if (slideIndex > x.length) {slideIndex = 1}
+              x[slideIndex-1].style.display = "block";
+              document.getElementById('titolo').innerHTML=titoli[slideIndex-1];
+            //  y[slideIndex-1].style.display = "block";
+              setTimeout(carousel, 4000); // Change image every 2 seconds
+            }
+          </script>
+   
+  <h1 class="titolo_elenco">Le mie ricette</h1> 
+  <div class="archivio_ricette">
+    {%for cat in categorie%}
+      <div>
+        <a href="{%url 'blog:RecipeListView' cat.id %}"><button class="categorie">{{cat}}</button></a>
+      </div>
+    {%endfor%}
+  </div>
+
+  <h1 class="titolo_elenco" > Nuove Ricette  <hr></h1>
+  <div class="elenco_ricette ">
+     {%for ricetta in ricette%}
+       
+        <div class="ricetta w3-card-4" style="border-radius: 15px; overflow: hidden">
+          <div class='titolo_ricetta'> <h2> {{ricetta.title}} </h2></div>
+          {%if ricetta.tempo_preparazione or ricetta.tempo_cottura %}
+          <img src="{% static 'blog/time.png' %}" style="width:28px; ">
+          {%endif%}
+          {%if ricetta.tempo_preparazione %}
+             preparazione: {{ricetta.tempo_preparazione}} {{ricetta.tempo_preparazione_unita}} -
+          {% endif %}
+          {%if ricetta.tempo_cottura %}
+             cottura: {{ricetta.tempo_cottura}} {{ricetta.tempo_cottura_unita}}
+          {% endif %}
+          
+          <button class="toggle-description" onclick="toggleDescription(this)">
+            Mostra descrizione
+          </button>
+
+          <div class='descrizione_ricetta' style="display: none;"> {{ricetta.description | safe}} </div>
+          <div class='preparazione'> {{ricetta.instruction}} </div>
+         
+          {% if ricetta.immagini_set.all %}
+            <div class="'immagine">
+              <img src="{{ ricetta.immagini_set.all.0.immagine.url }}" >
+            </div>
+          {% endif %}
+          <p>
+          <a href="{%url 'blog:ricetta' ricetta.id %}">
+            <button class="toggle-description">
+            Ingredienti e Preparazione
+            </button>
+          </a> 
+
+          </p> 
+        </div>
+
+     {%endfor%}
+    
+     <!--   RICETTE DI FARFALLA -->
+
+    {%for ricetta in ricette_farfalla %}
+
+     <div class="ricetta w3-card-4" style="border-radius: 15px; overflow: hidden">
+      <div class='titolo_ricetta'> <h2> {{ricetta.title}} </h2></div>
+      {%if ricetta.tempo_preparazione or ricetta.tempo_cottura %}
+      <img src="{% static 'blog/time.png' %}" style="width:28px; ">
+      {%endif%}
+      {%if ricetta.tempo_preparazione %}
+         preparazione: {{ricetta.tempo_preparazione}} {{ricetta.tempo_preparazione_unita}} -
+      {% endif %}
+      {%if ricetta.tempo_cottura %}
+         cottura: {{ricetta.tempo_cottura}} {{ricetta.tempo_cottura_unita}}
+      {% endif %}
+      
+      <button class="toggle-description" onclick="toggleDescription(this)">
+        Mostra descrizione
+      </button>
+
+      <div class='descrizione_ricetta' style="display: none;"> {{ricetta.description | safe}} </div>
+      <div class='preparazione'> {{ricetta.instruction}} </div>
+     
+      {% if ricetta.immagini_set.all %}
+        <div class="'immagine">
+          <img src="{{ ricetta.immagini_set.all.0.immagine.url }}" >
+        </div>
+      {% endif %}
+      <p>
+      <a href="{%url 'blog:ricetta' ricetta.id 'farfalla' %}">
+        <button class="toggle-description">
+        Ingredienti e Preparazione
+        </button>
+      </a> 
+
+      </p> 
+    </div>
+
+    {%endfor%}
+  </div>
+</div>
+
+  {%endblock %}

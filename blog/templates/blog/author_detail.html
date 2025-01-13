@@ -1,0 +1,74 @@
+{%extends "blog/base.html"%}
+{%load static%}
+{%block head%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilo Autore</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(252, 232, 228);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: brown;
+            margin-bottom: 20px;
+        }
+        h3 {text-align:center; color:blue}
+        .bio {
+            font-size: 1.2em;
+            color: #555;
+            line-height: 1.6;
+        }
+        .menu a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 1em;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .menu a:hover {
+            text-decoration: underline;
+        }
+
+        .logo {width:64px;}
+        .contatti a {text-decoration: none;}
+    </style>
+{%endblock%}
+{%block content%}
+
+    <div class="container">
+        <h1>Profilo dell'Autrice</h1>
+        <h3>
+           <img class=logo src="{%static 'blog/AzzurraFarfallaFissa.png'%}">{{author.nome}}
+        </h3>
+        <div class="bio">
+            {{ author.bio|safe }}
+        </div>
+        <div class="contatti">
+           
+            <a href="{{author.facebook}}">
+                <img style="width: 50px; height:50px" src="{%static 'blog/facebook.png'%}"> 
+            </a>
+            <a href="{{author.instagram}}">
+                <img style="width: 55px; height:35px" src="{% static 'blog/instagram.png' %}">   
+            </a>
+            <img src="{%static 'blog/mail.png'%}" style="width:36px;">
+            {{author.email}}
+        </div>
+
+        <div class="menu">
+            <a href="{% url 'blog:index' %}">Torna alla pagina principale</a>
+        </div>
+    </div>
+
+{%endblock%}

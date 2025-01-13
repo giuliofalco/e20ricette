@@ -1,0 +1,27 @@
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?{% if request.GET.content %}content={{ request.GET.content }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}page=1">&laquo; Prima</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?{% if request.GET.content %}content={{ request.GET.content }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}page={{ page_obj.previous_page_number }}">Precedente</a>
+            </li>
+        {% endif %}
+
+        <li class="page-item active">
+            <span class="page-link">
+                Pagina {{ page_obj.number }} di {{ page_obj.paginator.num_pages }}
+            </span>
+        </li>
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?{% if request.GET.content %}content={{ request.GET.content }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}page={{ page_obj.next_page_number }}">Successiva</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?{% if request.GET.content %}content={{ request.GET.content }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}page={{ page_obj.paginator.num_pages }}">Ultima &raquo;</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

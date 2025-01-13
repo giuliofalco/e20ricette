@@ -1,0 +1,34 @@
+{%extends 'blog/base.html'%}
+
+{%block head%}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body {background-color:rgb(252, 232, 228);}
+    h1 {color: brown}
+    h2.titolo {color:blue}
+    .lista_video {display:flex;  flex-wrap:wrap}
+    .video-item {
+                 margin: 20px; width:400px; 
+                 background-color: white; 
+                 padding: 15px;
+                 border-radius: 15px;
+                }
+    .video-item iframe {max-width: 100%}
+</style>
+{%endblock%}
+
+{%block content%}
+
+<h1>Video Ricette</h1>
+
+<div class="lista_video">
+    {%for vid in video %}
+        <div class="video-item">
+          <h2 class=titolo>{{vid.titolo}}</h2>
+          <div class=embed>{{vid.embed |safe }}</div>
+        </div>
+
+    {%endfor%}
+</div>
+
+{%endblock%}
