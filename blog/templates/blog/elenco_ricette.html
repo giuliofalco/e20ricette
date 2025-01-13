@@ -53,7 +53,7 @@
                   {{category}} 
                 {%endfor%}
             </td>
-            <td style="width:50px;"><a href="{%url 'blog:ricetta' ricetta.id %}"><img src="{%static 'blog/pdf.png' %}"></a></td>    
+            <td style="width:50px;"><a href="{%url 'blog:ricetta' ricetta.id 'default' %}"><img src="{%static 'blog/pdf.png' %}"></a></td>    
             <td>{{ricetta.title}}</td>
             <td>{{ricetta.descrizione_breve}}</td>
             <td style="width: 100px;">
