@@ -41,10 +41,8 @@ def ricetta(request,id,db):
    
     if db == 'farfalla':
       recipe = Recipe.objects.using('farfalla').get(id=id)
-      db = 'farfalla'
     else:
       recipe = Recipe.objects.get(id=id)
-      db = ''
     comment_count = recipe.comment_set.count() # Conta il numero di commenti associati alla ricetta
      
     # Recupera gli ingredienti con quantità e unità attraverso la relazione RecipeIngredient

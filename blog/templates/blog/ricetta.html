@@ -48,7 +48,7 @@
       <div style="display:flex; justify-content: center; gap: 5px; align-items: flex-end">
       <h1>Ricetta: <span id='titolo'>{{recipe.title}} </h1>
           <divclass="icona" > 
-            <a href="{% url 'blog:ricetta_da_sola' recipe.id db%}">   
+            <a href="{% url 'blog:ricetta_da_sola' recipe.id db %}">   
             <img src="{%static 'blog/pdf.png'%}" title="apri">
             </a><br>print        
           </div>
