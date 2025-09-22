@@ -146,7 +146,7 @@
           <header class="w3-container w3-center " >
                
               {%for slide in slideshow %}
-                <a href="{%url 'blog:ricetta' slide.id %}">
+                <a href="{%url 'blog:ricetta' slide.id 'default' %}">
                  <img src="{{ slide.immagini_set.all.0.immagine.url }}" class="mySlides w3-animate-right">
                 </a>
               {%endfor%}
