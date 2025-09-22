@@ -65,7 +65,9 @@
           {% for ingredient in ingredients %}
             <li>
               {{ ingredient.ingredient.name }}: 
-              {{ ingredient.quantity }}
+              {%if ingredient.unit != "q.b." %}
+                {{ ingredient.quantity }}
+              {%endif%}
               {%if ingredient.unit %} {{ ingredient.unit }} {%endif%}
             </li>
           {% endfor %}
